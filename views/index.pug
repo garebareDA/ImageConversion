@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1 画像変換
+  input(type="file" id="file" accept=".jpg,.gif,.png,image/gif,image/jpeg,image/png")
+  input(type="submit" id="button")
+  div
+    span
+      input(type="number" id="xScale")
+      span X
+      input(type="number" id="yScale")
+  img(id="post" src="")
