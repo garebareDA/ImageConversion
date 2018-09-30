@@ -2,11 +2,19 @@ extends layout
 
 block content
   h1 画像変換
+  
   input(type="file" id="file" accept=".jpg,.gif,.png,image/gif,image/jpeg,image/png")
-  input(type="submit" id="button")
+ 
   div
     span
       input(type="number" id="xScale")
       span X
       input(type="number" id="yScale")
+      
+    div.span
+      input(type='radio', name='lang', value='png' checked="checked")
+      span png 
+      input(type='radio', name='lang', value='jpg')
+      span jpg
+    input(type="submit" id="button")
   img(id="post" src="")

@@ -14,20 +14,26 @@ $(() => {
 
           let x = $('#xScale').val();
           let y = $('#yScale').val();
+          let con
+          $('input[name=lang]:checked').val() === 'png' ? con = 'png' : con = 'jpg';
           const postdata = encodeURIComponent(reader.result);
+          console.log(x);
+          console.log(y);
 
-          if ( 5000 > x > 0 || 5000 > y > 0) {
 
-            $.post('/post', 'postImage=' + postdata + '&x=' + x + '&y=' + y ).done(() => {
+
+          if (x == '' || y == '') {
+
+            alert('数値の入力してください');
+
+          } else if (5000 > x > 0 || 5000 > y > 0) {
+
+            $.post('/post', 'postImage=' + postdata + '&x=' + x + '&y=' + y + '&type=' + con).done(() => {
               $.get('/post', (data) => {
                 console.log(data);
                 $('#post').attr('src', `${data}`);
               });
             });
-
-          } else if (x == '' || y == '') {
-
-            alert('数値を入力してください');
 
           } else {
             alert('数値は0以上5000以下を入力してください');
@@ -43,6 +49,7 @@ $(() => {
       $('#file').attr('value', '');
       alert('画像を選択してください')
     }
+
 
   });
 });
