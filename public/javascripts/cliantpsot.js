@@ -1,37 +1,38 @@
 'use strict';
 
+let postdata ;
+let imgpost ;
+
 $(() => {
   $('#file').change(() => {
 
-    let file = $('#file').prop('files')[0];
-    let reader = new FileReader();
+    const file = $('#file').prop('files')[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
 
-    if (file.type.match('image.*')) {
-      reader.readAsDataURL(file);
-
+    if (file.type.match('image.*')) {  
       reader.addEventListener('load', () => {
         $('#button').on('click', () => {
 
-          let x = $('#xScale').val();
-          let y = $('#yScale').val();
+          const x = $('#xScale').val();
+          const y = $('#yScale').val();
           let con
           $('input[name=lang]:checked').val() === 'png' ? con = 'png' : con = 'jpg';
-          const postdata = encodeURIComponent(reader.result);
-          console.log(x);
-          console.log(y);
-
-
-
           if (x == '' || y == '') {
 
             alert('数値の入力してください');
 
           } else if (5000 > x > 0 || 5000 > y > 0) {
+            $('#button').prop('disabled', true);
+              postdata = encodeURIComponent(reader.result);
+            $.post('/post', `postImage=${postdata}` + '&x=' + x + '&y=' + y + '&type=' + con).done((data) => {
+                
+              postdata = null;
+              console.log(postdata);
 
-            $.post('/post', 'postImage=' + postdata + '&x=' + x + '&y=' + y + '&type=' + con).done(() => {
-              $.get('/post', (data) => {
-                console.log(data);
-                $('#post').attr('src', `${data}`);
+              $.get('/post').done((data) => {
+                $('#post').attr('src', data);
+                $('#button').prop('disabled', false);
               });
             });
 
@@ -42,7 +43,7 @@ $(() => {
           }
         });
 
-      }, false);
+      });
 
     } else {
 
