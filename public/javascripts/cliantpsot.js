@@ -26,9 +26,6 @@ $(() => {
             $('#button').prop('disabled', true);
               postdata = encodeURIComponent(reader.result);
             $.post('/post', `postImage=${postdata}` + '&x=' + x + '&y=' + y + '&type=' + con).done((data) => {
-                
-              postdata = null;
-              console.log(postdata);
 
               $.get('/post').done((data) => {
                 $('#post').attr('src', data);
