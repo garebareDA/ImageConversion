@@ -19,7 +19,6 @@ router.post('/', (req, res, next) => {
   });
   img = null;
   req.body.postImage = null;
-  res.redirect(304,'/index');
 });
 
 router.get('/', (req, res, next) => {
