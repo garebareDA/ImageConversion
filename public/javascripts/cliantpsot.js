@@ -1,8 +1,4 @@
 'use strict';
-
-let postdata ;
-let imgpost ;
-
 $(() => {
   $('#file').change(() => {
 
@@ -24,16 +20,23 @@ $(() => {
 
           } else if (5000 > x > 0 || 5000 > y > 0) {
             $('#button').prop('disabled', true);
-              postdata = encodeURIComponent(reader.result);
-            $.post('/post', `postImage=${postdata}` + '&x=' + x + '&y=' + y + '&type=' + con).done((data) => {
-
-              $.get('/post').done((data) => {
-                $('#post').attr('src', data);
-                $('#button').prop('disabled', false);
-              });
+              const postdata = encodeURIComponent(reader.result);
+              
+              $.ajax({
+                type:'POST',
+                url :'/post',
+                ansync: false,
+                dataType:'text',
+                cache: false,
+                processData: false,
+                data:`postImage=${postdata}&x=${x}&y=${y}&type=${con}`
+              }).done(() => {
+                $.redirect('/post');
+                $('#file').attr('value', '');
             });
-
+            window.location.href = '/post'
           } else {
+
             alert('数値は0以上5000以下を入力してください');
             $('#xScale').attr('value', '');
             $('#yScale').attr('value', '');
